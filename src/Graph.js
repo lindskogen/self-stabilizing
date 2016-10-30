@@ -34,7 +34,6 @@ const Graph = React.createClass({
       height: '100%',
       width: '100%',
       interaction: {
-        selectable: false,
         dragNodes: false
       },
       layout: {
@@ -54,6 +53,9 @@ const Graph = React.createClass({
       }
     }
     this.net = new vis.Network(this.elem, { edges, nodes }, options);
+    if (this.props.onNodeClick) {
+      this.net.on('click', this.props.onNodeClick)
+    }
   }
 })
 
