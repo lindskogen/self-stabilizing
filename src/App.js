@@ -1,9 +1,10 @@
 import React from 'react';
+import MaximalMatching from './MaximalMatching';
 
 const App = React.createClass({
   render() {
     return (
-      <TokenCirculation/>
+      <MaximalMatching/>
     );
   }
 })
