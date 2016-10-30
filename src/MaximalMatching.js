@@ -52,6 +52,12 @@ const MaximalMatching = React.createClass({
         })
     })
   },
+  nodeClicked({ nodes }) {
+    const [ nodeId, ] = nodes
+    if (nodeId !== undefined) {
+      this.doNodeTick(this.state.nodes.findIndex(node => node.id === nodeId))
+    }
+  },
   doNodeTick(index) {
     const nodes = this.state.nodes
     let node = nodes[index]
@@ -64,21 +70,24 @@ const MaximalMatching = React.createClass({
       node = {
         ...node,
         pointer: match.id,
-        label: node.id + ',' + match.id
+        label: node.id + ',' + match.id,
+        color: '#3949AB'
       }
       this.updateNodes(node, index)
     } else if (node.pointer === undefined && !match && firstEmpty) {
       node = {
         ...node,
         pointer: firstEmpty.id,
-        label: node.id + ',' + firstEmpty.id
+        label: node.id + ',' + firstEmpty.id,
+        color: '#3949AB'
       }
       this.updateNodes(node, index)
     } else if (node.pointer !== undefined && nodes[node.pointer].pointer !== node.id) {
       node = {
         ...node,
         pointer: undefined,
-        label: node.id + ','
+        label: node.id + ',',
+        color: undefined
       }
       this.updateNodes(node, index)
     }
@@ -86,11 +95,7 @@ const MaximalMatching = React.createClass({
   componentDidMount() {
     const { nodes } = this.state
     nodes.forEach((node, i) => {
-      // if (i === 0) {
-      //   requestInterval(() => this.doRootTick(), speed)
-      // } else {
-        requestInterval(() => this.doNodeTick(i), speed + (speed/2) * i + Math.random() * speed)
-      // }
+      requestInterval(() => this.doNodeTick(i), speed + i * speed/10)
     })
   },
   getInitialState() {
@@ -105,7 +110,7 @@ const MaximalMatching = React.createClass({
 
     return (
       <div>
-        <Graph nodes={nodes} edges={edges} />
+        <Graph nodes={nodes} edges={edges} onNodeClick={this.nodeClicked} />
       </div>
     );
   }
