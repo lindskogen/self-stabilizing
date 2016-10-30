@@ -13,7 +13,7 @@ const Graph = React.createClass({
     }
   },
   componentWillReceiveProps(nextProps) {
-    this.updateGraph()
+    this.updateGraph(nextProps)
   },
   componentDidMount() {
     this.createGraph()
@@ -23,8 +23,8 @@ const Graph = React.createClass({
       <div ref={(el) => this.elem = el} style={this.props.style}></div>
     );
   },
-  updateGraph() {
-    const { edges, nodes } = this.props
+  updateGraph(nextProps) {
+    const { edges, nodes } = nextProps
     this.net.setData({ nodes, edges })
   },
   createGraph() {
